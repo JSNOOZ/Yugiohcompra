@@ -1,0 +1,51 @@
+body {
+    background-image: url(../img/1313044.jpg);
+    background-size: cover; /* Ajusta la imagen para que cubra toda la pantalla */
+background-position: center; /* Centra la imagen */
+background-repeat: no-repeat; /* Evita que la imagen se repita */
+background-attachment: fixed; /* Hace que la imagen permanezca fija al hacer scroll */
+margin: 0; /* Elimina cualquier margen predeterminado */
+padding: 0; /* Elimina cualquier padding predeterminado */
+min-height: 100vh; /* Asegura que el fondo cubra al menos toda la altura de la ventana */
+  }
+  .card-detail-container {
+    margin-top: 50px;
+    background-color: rgb(175, 174, 174, .7 );
+    border-radius: 10px;
+    box-shadow: 0 15px 15px 20px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    color: rgb(72, 70, 70);
+  }
+  .card-detail-image {
+    max-width: 40%;
+    margin-right: 20px;
+  }
+  .card-detail-image img {
+    width: 100%;
+    border-radius: 10px;
+  }
+  .card-detail-info {
+    flex: 1;
+  }
+  .card-detail-title {
+    margin-bottom: 20px;
+    font-size: 2rem;
+    color: #1a1a1a;
+    font-weight: bold;
+  }
+  .btn-back {
+    margin-top: 20px;
+    background-color: #FFD700;
+    color: black;
+    border: none;
+    font-size: 16px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  }
+  .btn-back:hover {
+    background-color: #e6c200;
+  }

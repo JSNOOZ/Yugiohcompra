@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Compra de Cartas Yu-Gi-Oh</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+  body {
+  background-image: url(./img/1371364.jpeg);
+  background-size: cover; /* Ajusta la imagen para que cubra toda la pantalla */
+  background-position: center; /* Centra la imagen */
+  background-repeat: no-repeat; /* Evita que la imagen se repita */
+  background-attachment: fixed; /* Hace que la imagen permanezca fija al hacer scroll */
+  margin: 0; /* Elimina cualquier margen predeterminado */
+  padding: 0; /* Elimina cualquier padding predeterminado */
+  min-height: 100vh; /* Asegura que el fondo cubra al menos toda la altura de la ventana */
+}
+
+.card {
+  background-color: rgba(80, 78, 78, 0.6);
+  border: 1px solid #555;
+  margin-bottom: 15px;
+  cursor: pointer;
+}
+
+.card-title,
+.card-text {
+  color: #FFD700;
+}
+
+.btn-dark {
+  background-color: #444;
+  color: white;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-dark:hover {
+  background-color: #FFD700;
+  color: #333;
+}
+
+.cart-button {
+  position: fixed;
+  top: 15px;
+  right: 15px;
+  background-color: #FFD700;
+  color: #333;
+  border: none;
+  border-radius: 50%;
+  padding: 10px; /* Tamaño reducido */
+  font-size: 16px; /* Tamaño de fuente reducido */
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.cart-icon {
+  position: sticky; /* Hace que el ícono se mantenga pegado */
+  top: 60px; /* Fija el ícono en la parte superior */
+  z-index: 1000; /* Asegura que esté encima de otros elementos */
+  width: 60px; /* Tamaño reducido */
+  height: 60px; /* Tamaño reducido */
+  background-color: #FFD700;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #333;
+  font-size: 16px; /* Tamaño de fuente reducido */
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.cart-count {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: red;
+  color: white;
+  font-size: 12px; /* Tamaño de fuente reducido */
+  width: 18px; /* Tamaño reducido */
+  height: 18px; /* Tamaño reducido */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-weight: bold;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.cart {
+  position: fixed;
+  top: 80px;
+  left: 15px;
+  background-color: rgba(80, 78, 78, 0.8);
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  max-height: 300px;
+  max-width: 300px;
+  overflow-y: auto;
+  box-shadow: 0 4px 8px rgba(90, 89, 89, 0.5);
+  z-index: 1000;
+}
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.cart-item img {
+  width: 200px; /* Tamaño reducido */
+  height: 200px; /* Tamaño reducido */
+  margin-right: 10px;
+}
+
+.cart-item input {
+  width: 40px; /* Tamaño reducido */
+  margin: 0 5px;
+  text-align: center;
+}
+
+.filter-bar {
+  position: fixed;
+  top: 70px;
+  right: 15px;
+  background-color: rgba(253, 250, 250, 0.6);
+  color: black;
+  padding: 10px; /* Tamaño reducido */
+  border-radius: 5px;
+  max-height: 500px; /* Altura reducida */
+  overflow-y: auto;
+  width: 250px; /* Ancho reducido */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.filter-bar h5 {
+  margin-bottom: 10px; /* Espaciado reducido */
+  font-size: 14px; /* Tamaño reducido */
+}
+
+.filter-bar label {
+  margin-right: 5px; /* Espaciado reducido */
+  font-size: 12px; /* Tamaño reducido */
+}
+
+.filter-bar input {
+  margin-bottom: 8px; /* Espaciado reducido */
+  font-size: 12px; /* Tamaño reducido */
+}
+
+</style>
+</head>
+<body>
+ <!-- Navbar -->
+ <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Yugioh TCG</a>
+    </div>
+  </nav>
+
+  <!-- Contenido de la Página -->
+  <div id="app" class="container mt-5">
+    <div class="row">
+
+      <!-- Ícono del carrito -->
+    <div class="cart-icon" @click="toggleCart">
+    🛒
+    <span class="cart-count" v-if="totalCartItems > 0">{{ totalCartItems }}</span>
+  </div>
+  
+  
+
+      <!-- Carrito -->
+      <div v-if="isCartVisible" class="cart">
+        <h5>Tu Carrito</h5>
+        <div v-for="(item, index) in cart" :key="index" class="cart-item">
+          <img :src="item.card_images[0].image_url" :alt="item.name">
+          <div>
+            <p>{{ item.name }}</p>
+            <p>Precio Unitario: ${{ item.price }}</p>
+            <p>Total por Carta: ${{ (item.price * item.quantity).toFixed(2) }}</p>
+            <div class="d-flex align-items-center">
+              <button @click="updateQuantity(index, item.quantity - 1)" class="btn btn-sm btn-danger">-</button>
+              <input type="number" v-model="item.quantity" @input="updateQuantity(index, +item.quantity)" min="1" max="6">
+              <button @click="updateQuantity(index, item.quantity + 1)" class="btn btn-sm btn-success">+</button>
+            </div>
+          </div>
+        </div>
+        <p class="mt-3"><strong>Total del Carrito: ${{ totalCartPrice }}</strong></p>
+        <button @click="goToCartPage" class="btn btn-sm btn-warning mt-3">Ver Carrito Completo</button>
+        <button @click="toggleCart" class="btn btn-sm btn-secondary mt-3">Cerrar Carrito</button>
+      </div>
+      <!-- Filtros -->
+<div class="filter-bar">
+  <h5>Filtros</h5>
+  <div>
+    <label for="category">Categoría:</label>
+    <select id="category" class="form-select" v-model="selectedCategory" @change="filterCards">
+      <option value="">Todas</option>
+      <option value="Effect Monster">Efecto</option>
+      <option value="Normal Monster">Normal</option>
+      <option value="Fusion Monster">Fusión</option>
+      <option value="XYZ Monster">XYZ</option>
+      <option value="Synchro Monster">Sincronía</option>
+      <option value="Ritual Effect Monster">Ritual</option>
+      <option value="Link Monster">Link</option>
+      <option value="Spell Card">Magia</option>
+      <option value="Trap Card">Trampa</option>
+      <option value="Pendulum Effect Monster">Péndulo Efecto</option>
+      <option value="Pendulum Normal Monster">Péndulo Normal</option>
+      <option value="Pendulum Effect Fusion Monster">Péndulo Fusion</option>
+      <option value="Synchro Pendulum Effect Monster">Péndulo Sincronia</option>
+      <option value="XYZ Pendulum Effect Monster">Péndulo XYZ</option>
+      <option value="Pendulum Effect Ritual Monster">Péndulo Ritual</option>
+    </select>
+  </div>
+  <div class="mt-3">
+    <label for="name">Nombre:</label>
+    <input id="name" type="text" class="form-control" v-model="searchQuery" placeholder="Buscar por nombre" @input="filterCards">
+  </div>
+  <!-- Nueva Barra de Cantidad -->
+  <div class="mt-3 text-center">
+    <strong>Total de Cartas Encontradas: </strong>
+    <span class="badge bg-info text-dark">{{ filteredCards.length }}</span>
+  </div>
+</div>
+      <!-- Cartas -->
+      <div class="col-md-9">
+        <div class="row">
+          <div v-for="card in currentPageCards" :key="card.id" class="col-md-4">
+            <div class="card" @click="goToDetails(card.id)">
+              <img :src="card.card_images[0].image_url" class="card-img-top" :alt="card.name + ' image'">
+              <div class="card-body">
+                <h5 class="card-title">{{ card.name }}</h5>
+                <p class="card-text">Precio: ${{ card.price }}</p>
+                <p class="card-text">Tipo: {{ card.type }}</p>
+                <button class="btn btn-dark" @click.stop="addToCart(card)">Añadir al Carrito</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Paginación -->
+      <div class="row justify-content-center mt-4">
+        <div class="col-auto">
+          <button class="btn btn-dark" :disabled="currentPage === 1" @click="prevPage">Anterior</button>
+          <span class="text-warning mx-2">Página {{ currentPage }} de {{ totalPages }}</span>
+          <button class="btn btn-dark" :disabled="currentPage === totalPages" @click="nextPage">Siguiente</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class="bg-dark text-light text-center py-3 mt-5">
+    <div class="container">
+      <img src="./img/a74072de-4b88-4023-b8b1-b3ddb220b1fb.webp" alt="Logo" class="mb-2" style="width: 50px;">
+      <p class="mb-0">&copy; 2024 Yugioh TCG. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@3.2.47/dist/vue.global.prod.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="./js/app3.js"></script> 
+</body>
+</html>

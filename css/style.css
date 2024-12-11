@@ -1,0 +1,49 @@
+
+    body {
+      background-image: url(../img/1313026.jpg);
+      background-size: cover; /* Ajusta la imagen para que cubra toda la pantalla */
+  background-position: center; /* Centra la imagen */
+  background-repeat: no-repeat; /* Evita que la imagen se repita */
+  background-attachment: fixed; /* Hace que la imagen permanezca fija al hacer scroll */
+  margin: 0; /* Elimina cualquier margen predeterminado */
+  padding: 0; /* Elimina cualquier padding predeterminado */
+  min-height: 100vh; /* Asegura que el fondo cubra al menos toda la altura de la ventana */
+    }
+    .cart-table {
+      margin-top: 50px;
+    }
+    .btn-back {
+      margin-top: 20px;
+      background-color: #FFD700;
+      color: black;
+      border: none;
+      font-size: 16px;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .btn-back:hover {
+      background-color: #e6c200;
+    }
+    .quantity-controls {
+      display: flex;
+      align-items: center;
+    }
+    .quantity-controls button {
+      background-color: #FFD700;
+      border: none;
+      color: black;
+      font-size: 14px;
+      padding: 5px 10px;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+    .quantity-controls input {
+      width: 50px;
+      text-align: center;
+      margin: 0 5px;
+    }
+    .quantity-controls button:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
